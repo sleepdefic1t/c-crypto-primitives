@@ -11,7 +11,7 @@
 - **[WIP]** [Base58](./src/sha256/README.md)
 - **[WIP]** [Ripemd120](./src/sha256/README.md)
 - **[WIP]** [SECP256k1](./src/sha256/README.md)
-- **[WIP]** [Sha256](./src/sha256/README.md)
+- [Sha256](./src/sha256/README.md)
 
 ## Security
 
