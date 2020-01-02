@@ -1,0 +1,91 @@
+/* 
+ * Adapted from: https://github.com/nayuki/Bitcoin-Cryptography-Library
+ * Bitcoin cryptography library
+ * Copyright (c) Project Nayuki
+ */
+
+{
+    0,
+    "",
+    "9c1185a5c5e9fc54612808977ee8f548b2258d31"
+},
+{
+    1,
+    "00",
+    "c81b94933420221a7ac004a90242d8b1d3e5070d"
+},
+{
+    2,
+    "0000",
+    "f7d50d120d655be4b88750873e00caf147f28a1b"
+},
+{
+    3,
+    "002400",
+    "1c451cea274137364fd8d3d1f8990bb03101ebca"
+},
+{
+    4,
+    "ff80c95e",
+    "1e2f6138a0f061704408eb66e2fba65c380eae38"
+},
+{
+    5,
+    "26f96e8e87",
+    "47c2915de1b326f065f54cea2d9ffd114a07e0c4"
+},
+{
+    6,
+    "ca1c3d868bb0",
+    "5fcce2fc51d1cdb11df0eae5b3600c4a122beaa9"
+},
+{
+    7,
+    "4051ca937fd277",
+    "fd079b14722b89198677b13af2366f9388d05d49"
+},
+{
+    8,
+    "9f720999fccf0ea1",
+    "b895d2beb801ec926668be6d807038e15cfca6e0"
+},
+{
+    9,
+    "d2398d341e81302e79",
+    "d3a1c9d700908a9c7cedcc717cd9379186213b6e"
+},
+{
+    10,
+    "16b465594145c439d3fa",
+    "23ffc977256cba56fc22c8edf2bd524b747b6b86"
+},
+{
+    11,
+    "a79a11116c71401829e286",
+    "36f668fe3c19a9be4665374322f1d1666d5413e8"
+},
+{
+    12,
+    "741c189e1e703ade8c7dd823",
+    "7d198c7b432d0019f44a05687dce0d5251ed2f71"
+},
+{
+    13,
+    "0207354350b35c07722fa4afb3",
+    "6e48333cae83734a7457d945b2f5928029b57dbd"
+},
+{
+    14,
+    "94e8d77965a1e0e686749ab459d8",
+    "a09ec352c3adc74f5eed4edb3db764f44b8fe2cd"
+},
+{
+    15,
+    "64ae32f6976ac0019744c48dfb0f4f",
+    "0cd998103f24a3e9f749e89c2d15f003cf19f17c"
+},
+{
+    16,
+    "1b6280e15ba61d91b623490a49589d83",
+    "b78a645a28e94664c08ff98c515315d91eb688c0"
+}
