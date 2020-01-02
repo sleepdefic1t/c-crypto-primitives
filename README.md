@@ -8,9 +8,9 @@
 
 ## Contents
 
-- **[WIP]** [Base58](./src/sha256/README.md)
-- **[WIP]** [Ripemd120](./src/sha256/README.md)
-- **[WIP]** [SECP256k1](./src/sha256/README.md)
+- **[WIP]** [Base58](./src/base58/README.md)
+- **[WIP]** [Ripemd160](./src/ripemd160/README.md)
+- **[WIP]** [SECP256k1](./src/secp256k1/README.md)
 - **[WIP]** [Sha256](./src/sha256/README.md)
 
 ## Security
