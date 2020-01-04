@@ -8,7 +8,7 @@
 
 ## Contents
 
-- **[WIP]** [Base58](./src/base58/README.md)
+- [Base58](./src/base58/README.md)
 - [Ripemd160](./src/ripemd160/README.md)
 - **[WIP]** [SECP256k1](./src/secp256k1/README.md)
 - [Sha256](./src/sha256/README.md)
