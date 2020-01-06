@@ -7,69 +7,25 @@
  * file that was distributed with this source code.
  **/
 
-#include <stdbool.h>
 #include <stdlib.h>
+#include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
-#include <string.h>
 
 #include "sha256/sha256.h"
 
 #include "sha256/fixtures/sha256_fixtures.h"
 
+#include "test_helpers.h"
+
 ////////////////////////////////////////////////////////////////////////////////
 // build and run with gcc:
-// `gcc -I../ sha256.c sha256_test.c -o sha256`
-// `./sha256`
+// `gcc -I../../src -I../ ../../src/sha256/sha256.c sha256_test.c -o sha256_tests`
+// `./sha256_tests`
 
 // build and run with gcc, with result printing:
-// `gcc -I../ sha256.c sha256_test.c -o sha256 -DPRINT_RESULTS`
-// `./sha256`
-
-////////////////////////////////////////////////////////////////////////////////
-void BytesToHex(const uint8_t *buf, size_t len, char *out) {
-    const uint8_t *it = buf;
-    const char *hex = "0123456789abcdef";
-    char *ptr = out;
-    for(; it < buf + len; ptr += 2, ++it){
-        ptr[0] = hex[(*it >> 4) & 0xF];
-        ptr[1] = hex[ *it       & 0xF];
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// Adapted from:
-// - https://gist.github.com/xsleonard/7341172
-//
-// Caller must ensure resulting value is freed.
-uint8_t* HexToBytes(const char* hexstr) {
-    size_t len = strlen(hexstr);
-    if (len % 2 != 0) {
-        return NULL;
-    }
-
-    size_t final_len = len / 2;
-
-    uint8_t* c = (uint8_t*)malloc((final_len + 1) * sizeof(*c));
-
-    for (size_t i = 0, j = 0; j < final_len; i += 2, j++) {
-        c[j] = (hexstr[i] % 32 + 9) % 25 * 16 + (hexstr[i + 1] % 32 + 9) % 25;
-    }
-
-    c[final_len] = '\0';
-
-    return c;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-#if defined(PRINT_RESULTS)
-    void printSha256Result(uint8_t *result) {
-        char buffer[2 * SHA256_DIGEST_LEN + 1];
-        memset(buffer, 0, 2 * SHA256_DIGEST_LEN + 1);
-        BytesToHex(result, SHA256_DIGEST_LEN, buffer);
-        printf("\nresult: %s", buffer);
-    }
-#endif
+// `gcc -I../../src -I../ ../../src/sha256/sha256.c sha256_test.c -o sha256_tests -DPRINT_RESULTS`
+// `./sha256_tests`
 
 ////////////////////////////////////////////////////////////////////////////////
 static const char *example_success_label =
@@ -79,7 +35,7 @@ static const char *example_success_label =
 #endif
     "\n";
 
-bool sha256_basic_example() {
+int sha256_basic_example() {
 #if defined(PRINT_RESULTS)
     printf(
     "\n========================================================================\n"
@@ -101,7 +57,7 @@ bool sha256_basic_example() {
     sha256(message, sizeof(message), result);
 
 #if defined(PRINT_RESULTS)
-    printSha256Result(result);
+    PrintBytesResult(result, SHA256_DIGEST_LEN);
 #endif
 
     return memcmp(result, digest, SHA256_DIGEST_LEN) == 0;
@@ -115,7 +71,7 @@ static const char *short_success_label =
 #endif
     "\n";
 
-bool sha256_short_cases() {
+int sha256_short_cases() {
 #if defined(PRINT_RESULTS)
     printf(
     "\n========================================================================\n"
@@ -131,7 +87,7 @@ bool sha256_short_cases() {
         free(hexBytes);
 
 #if defined(PRINT_RESULTS)
-        printSha256Result(result);
+        PrintBytesResult(result, SHA256_DIGEST_LEN);
 #endif
 
         uint8_t *testBytes = HexToBytes(short_message[i].digest);
@@ -155,7 +111,7 @@ static const char *long_success_label =
 #endif
     "\n";
 
-bool sha256_long_cases() {
+int sha256_long_cases() {
 #if defined(PRINT_RESULTS)
     printf(
     "\n========================================================================\n"
@@ -170,7 +126,7 @@ bool sha256_long_cases() {
         free(hexBytes);
 
 #if defined(PRINT_RESULTS)
-        printSha256Result(result);
+        PrintBytesResult(result, SHA256_DIGEST_LEN);
 #endif
 
         uint8_t *testBytes = HexToBytes(long_message[i].digest);

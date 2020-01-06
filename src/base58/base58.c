@@ -24,7 +24,7 @@
  * - add macros to calculate encode/decode output size.
  **/
 
-#include "base58.h"
+#include "base58/base58.h"
 
 #include <stddef.h>
 #include <stdint.h>

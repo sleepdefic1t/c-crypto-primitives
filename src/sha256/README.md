@@ -19,13 +19,13 @@ This implementation is currently:
 
 ## Compile and Run Tests with GCC
 
-1) `gcc -I../ sha256.c sha256_test.c -o sha256`
-2) `./sha256`
+1) `gcc -I../../src -I../../test ../../src/sha256/sha256.c ../../test/sha256/sha256_test.c -o sha256_tests`
+2) `./sha256_tests`
 
 Optionally print Sha256 results to the console:
 
-1) `gcc -I../ sha256.c sha256_test.c -o sha256 -DPRINT_RESULTS`
-2) `./sha256`
+1) `gcc -I../../src -I../../test ../../src/sha256/sha256.c ../../test/sha256/sha256_test.c -o sha256_tests -DPRINT_RESULTS`
+2) `./sha256_tests`
 
 ## More Information
 

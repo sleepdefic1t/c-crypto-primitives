@@ -11,13 +11,13 @@
 
 ### Base58: Compile and Run Tests with GCC
 
-1) `gcc -I../ base58.c base58_test.c -o base58`
-2) `./base58`
+1) `gcc -I../../src -I../../test ../../src/base58/base58.c ../../test/base58/base58_test.c -o base58_tests`
+2) `./base58_tests`
 
 Optionally print Base58 Encoding/Decoding results to the console:
 
-1) `gcc -I../ base58.c base58_test.c -o base58 -DPRINT_RESULTS`
-2) `./base58`
+1) `gcc -I../../src -I../../test ../../src/base58/base58.c ../../test/base58/base58_test.c -o base58_tests -DPRINT_RESULTS`
+2) `./base58_tests`
 
 ## Base58Check Encoding/Decoding
 
@@ -30,13 +30,13 @@ Optionally print Base58 Encoding/Decoding results to the console:
 
 ### Base58Check: Compile and Run Tests with GCC
 
-1) `gcc -I../ base58_check_test.c base58_check.c base58.c ../sha256/sha256.c -o base58_check`
-2) `./base58_check`
+1) `gcc -I../../src -I../../test ../../src/base58/base58.c ../../src/base58/base58_check.c ../../src/sha256/sha256.c ../../test/base58/base58_check_test.c -o base58_check_tests`
+2) `./base58_check_tests`
 
 Optionally print Base58 Encoding/Decoding results to the console:
 
-1) `gcc -I../ base58_check_test.c base58_check.c base58.c ../sha256/sha256.c -o base58_check -DPRINT_RESULTS`
-2) `./base58_check`
+1) `gcc -I../../src -I../../test ../../src/base58/base58.c ../../src/base58/base58_check.c ../../src/sha256/sha256.c ../../test/base58/base58_check_test.c -o base58_check_tests -DPRINT_RESULTS`
+2) `./base58_check_tests`
 
 ## More Information
 

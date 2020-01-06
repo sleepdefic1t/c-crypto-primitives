@@ -7,84 +7,25 @@
  * file that was distributed with this source code.
  **/
 
-#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
 
 #include "ripemd160/ripemd160.h"
 
 #include "ripemd160/fixtures/ripemd160_fixtures.h"
 
+#include "test_helpers.h"
+
 ////////////////////////////////////////////////////////////////////////////////
 // build and run with gcc:
-// `gcc -I../ ripemd160.c ripemd160_test.c -o ripemd160`
-// `./ripemd160`
+// `gcc -I../../src -I../ ../../src/ripemd160/ripemd160.c ripemd160_test.c -o ripemd160_tests`
+// `./ripemd160_tests`
 
 // build and run with gcc, with result printing:
-// `gcc -I../ ripemd160.c ripemd160_test.c -o ripemd160 -DPRINT_RESULTS`
-// `./ripemd160`
-
-////////////////////////////////////////////////////////////////////////////////
-void BytesToHex(const uint8_t *buf, size_t len, char *out) {
-    const uint8_t *it = buf;
-    const char *hex = "0123456789abcdef";
-    char *ptr = out;
-    for(; it < buf + len; ptr += 2, ++it){
-        ptr[0] = hex[(*it >> 4) & 0xF];
-        ptr[1] = hex[ *it       & 0xF];
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// Adapted from:
-// - https://gist.github.com/xsleonard/7341172
-uint8_t* HexToBytes(const char* hexstr) {
-    size_t len = strlen(hexstr);
-    if(len % 2 != 0) {
-        return NULL;
-    }
-
-    size_t final_len = len / 2;
-
-    uint8_t* c = (uint8_t*)malloc((final_len + 1) * sizeof(*c));
-
-    for (size_t i = 0, j = 0; j < final_len; i += 2, j++) {
-        c[j] = (hexstr[i] % 32 + 9) % 25 * 16 + (hexstr[i + 1] % 32 + 9) % 25;
-    }
-
-    c[final_len] = '\0';
-
-    return c;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// Adapted from:
-// - https://www.includehelp.com/c/convert-ascii-string-to-byte-array-in-c.aspx
-uint8_t*  AsciiToBytes(const char* input){
-    size_t len = strlen(input);
-
-    uint8_t* c = (uint8_t*)malloc((len + 1) * sizeof(*c));
-
-    int loop = 0;
-    int i = 0;
-
-    while(input[loop] != 0) {
-        c[i++] = input[loop++];
-    }
-
-    c[len] = '\0';
-    return c;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-#if defined(PRINT_RESULTS)
-    void printRipemd160Result(uint8_t *result) {
-        char buffer[2 * RIPEMD160_DIGEST_LEN + 1] = { 0 };
-        BytesToHex(result, RIPEMD160_DIGEST_LEN, buffer);
-        printf("\nresult: %s", buffer);
-    }
-#endif
+// `gcc -I../../src -I../ ../../src/ripemd160/ripemd160.c ripemd160_test.c -o ripemd160_tests -DPRINT_RESULTS`
+// `./ripemd160_tests`
 
 ////////////////////////////////////////////////////////////////////////////////
 static const char *standard_success_label =
@@ -94,7 +35,7 @@ static const char *standard_success_label =
 #endif
         "\n";
 
-bool ripemd160_standard_cases() {
+int ripemd160_standard_cases() {
 #if defined(PRINT_RESULTS)
     printf("\n================================================\n"
            "\nRipemd160 Standard Test Vectors:\n");
@@ -109,7 +50,7 @@ bool ripemd160_standard_cases() {
         free(asciiBytes);
 
 #if defined(PRINT_RESULTS)
-        printRipemd160Result(result);
+        PrintBytesResult(result, RIPEMD160_DIGEST_LEN);
 #endif
 
         uint8_t *hexBytes = HexToBytes(standard_vectors[i].digest);
@@ -133,7 +74,7 @@ static const char *mismatch_success_label =
 #endif
         "\n";
 
-bool ripemd160_mismatch_cases() {
+int ripemd160_mismatch_cases() {
 #if defined(PRINT_RESULTS)
     printf("\n================================================\n"
            "\nRipemd160 Mismatch Test Vectors:\n");
@@ -148,7 +89,7 @@ bool ripemd160_mismatch_cases() {
         free(asciiBytes);
 
 #if defined(PRINT_RESULTS)
-        printRipemd160Result(result);
+        PrintBytesResult(result, RIPEMD160_DIGEST_LEN);
 #endif
 
         uint8_t *hexBytes = HexToBytes(mismatch_vectors[i].digest);
@@ -173,7 +114,7 @@ static const char *random_success_label =
 #endif
         "\n";
 
-bool ripemd160_random_cases() {
+int ripemd160_random_cases() {
 #if defined(PRINT_RESULTS)
     printf("\n================================================\n"
            "\nRipemd160 Random Test Vectors:\n");
@@ -188,7 +129,7 @@ bool ripemd160_random_cases() {
         free(asciiBytes);
 
 #if defined(PRINT_RESULTS)
-        printRipemd160Result(result);
+        PrintBytesResult(result, RIPEMD160_DIGEST_LEN);
 #endif
 
         uint8_t *hexBytes = HexToBytes(random_vectors[i].digest);
@@ -212,7 +153,7 @@ static const char *binary_success_label =
 #endif
         "\n";
 
-bool ripemd160_binary_cases() {
+int ripemd160_binary_cases() {
 #if defined(PRINT_RESULTS)
     printf("\n================================================\n"
            "\nRipemd160 Binary Test Vectors:\n");
@@ -227,7 +168,7 @@ bool ripemd160_binary_cases() {
         free(hexBytes);
 
 #if defined(PRINT_RESULTS)
-        printRipemd160Result(result);
+        PrintBytesResult(result, RIPEMD160_DIGEST_LEN);
 #endif
 
         uint8_t *msgBytes = HexToBytes(binary_vectors[i].digest);
