@@ -30,6 +30,7 @@
 #include "ripemd160.h"
 
 #include <stddef.h>
+#include <stdint.h>
 #include <string.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -48,15 +49,15 @@
 //
 // Adapted from:  https://github.com/openssl/openssl
 typedef struct ripemd160_context_t {
-    unsigned int    state[RIPEMD160_STATE_COUNT];
-    unsigned char   data[RIPEMD160_BLOCK_LEN];
-    unsigned int    num, len;
+    uint32_t        state[RIPEMD160_STATE_COUNT];
+    uint8_t         data[RIPEMD160_BLOCK_LEN];
+    uint32_t        num, len;
 } RIPEMD160_CTX;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Utility Macros
-#define ROTATE_L(x, n)  ((((x & 0xFFFFFFFFUL) << n ) |                        \
-                          ((x & 0xFFFFFFFFUL) >> (32 - n))) & 0xFFFFFFFFUL)
+#define ROTATE_L(x, n)  ((((x & 0xFFFFFFFFULL) << n ) |                        \
+                          ((x & 0xFFFFFFFFULL) >> (32 - n))) & 0xFFFFFFFFUL)
 
 #define unpack4LE(buf)  (((((buf)[3]) & 0xFFFFFFFF) << 24)  |   \
                          ((((buf)[2]) & 0xFFFF)     << 16)  |   \
@@ -77,12 +78,8 @@ typedef struct ripemd160_context_t {
 // Copyright (c) Project Nayuki (MIT License)
 //
 // changes:
-// - use unsigned long.
 // - use openSSL transform macros.
-unsigned long RIPEMD160_Transform(int i,
-                                  unsigned long x,
-                                  unsigned long y,
-                                  unsigned long z) {
+uint64_t RIPEMD160_Transform(int i, uint64_t x, uint64_t y, uint64_t z) {
     switch (i >> 4) {
         case 0:  return F1(x,y,z);
         case 1:  return F2(x,y,z);
@@ -100,12 +97,11 @@ unsigned long RIPEMD160_Transform(int i,
 // Copyright (c) Project Nayuki (MIT License)
 //
 // changes:
-// - use unsigned long.
 // - use openSSL constants.
-const unsigned long KL[RIPEMD160_STATE_COUNT] = { KL0, KL1, KL2, KL3, KL4 };
-const unsigned long KR[RIPEMD160_STATE_COUNT] = { KR0, KR1, KR2, KR3, KR4 };
+const uint64_t KL[RIPEMD160_STATE_COUNT] = { KL0, KL1, KL2, KL3, KL4 };
+const uint64_t KR[RIPEMD160_STATE_COUNT] = { KR0, KR1, KR2, KR3, KR4 };
 
-const unsigned char WL[RIPEMD160_ROUNDS] = {
+const uint8_t WL[RIPEMD160_ROUNDS] = {
     WL00, WL01, WL02, WL03, WL04, WL05, WL06, WL07, WL08, WL09,
     WL10, WL11, WL12, WL13, WL14, WL15, WL16, WL17, WL18, WL19,
     WL20, WL21, WL22, WL23, WL24, WL25, WL26, WL27, WL28, WL29,
@@ -116,7 +112,7 @@ const unsigned char WL[RIPEMD160_ROUNDS] = {
     WL70, WL71, WL72, WL73, WL74, WL75, WL76, WL77, WL78, WL79
 };
 
-const unsigned char SL[RIPEMD160_ROUNDS] = {
+const uint8_t SL[RIPEMD160_ROUNDS] = {
     SL00, SL01, SL02, SL03, SL04, SL05, SL06, SL07, SL08, SL09,
     SL10, SL11, SL12, SL13, SL14, SL15, SL16, SL17, SL18, SL19,
     SL20, SL21, SL22, SL23, SL24, SL25, SL26, SL27, SL28, SL29,
@@ -127,7 +123,7 @@ const unsigned char SL[RIPEMD160_ROUNDS] = {
     SL70, SL71, SL72, SL73, SL74, SL75, SL76, SL77, SL78, SL79
 };
 
-const unsigned char WR[RIPEMD160_ROUNDS] = {
+const uint8_t WR[RIPEMD160_ROUNDS] = {
     WR00, WR01, WR02, WR03, WR04, WR05, WR06, WR07, WR08, WR09,
     WR10, WR11, WR12, WR13, WR14, WR15, WR16, WR17, WR18, WR19,
     WR20, WR21, WR22, WR23, WR24, WR25, WR26, WR27, WR28, WR29,
@@ -138,7 +134,7 @@ const unsigned char WR[RIPEMD160_ROUNDS] = {
     WR70, WR71, WR72, WR73, WR74, WR75, WR76, WR77, WR78, WR79
 };
 
-const unsigned char SR[RIPEMD160_ROUNDS] = {
+const uint8_t SR[RIPEMD160_ROUNDS] = {
     SR00, SR01, SR02, SR03, SR04, SR05, SR06, SR07, SR08, SR09,
     SR10, SR11, SR12, SR13, SR14, SR15, SR16, SR17, SR18, SR19,
     SR20, SR21, SR22, SR23, SR24, SR25, SR26, SR27, SR28, SR29,
@@ -172,18 +168,15 @@ static void RIPEMD160_Init(RIPEMD160_CTX *ctx) {
 // - use RIPEMD160_CTX.
 // - break up transform loop using additional locals for readability.
 // - use patterns from openSSL.
-// - use unsigned long vs uint8_t
-void RIPEMD160_Process(RIPEMD160_CTX *ctx,
-                       const unsigned char *data,
-                       size_t len) {
+void RIPEMD160_Process(RIPEMD160_CTX *ctx, const uint8_t *data, size_t len) {
     if (len % RIPEMD160_BLOCK_LEN != 0) {
         return;
     }
 
-    unsigned long A, B, C, D, E;
-    unsigned long a, b, c, d, e;
+    uint64_t A, B, C, D, E;
+    uint64_t a, b, c, d, e;
 
-    unsigned int XX[RIPEMD160_WORD_SIZE];
+    uint32_t XX[RIPEMD160_WORD_SIZE];
     #define X(i)    XX[i]
 
     for (size_t i = 0; i < len; ) {
@@ -198,7 +191,7 @@ void RIPEMD160_Process(RIPEMD160_CTX *ctx,
         E = ctx->state[4], e = ctx->state[4];
 
         for (int j = 0; j < RIPEMD160_ROUNDS; j++) {
-            unsigned long transform, rotation, temp;
+            uint64_t transform, rotation, temp;
 
             transform = RIPEMD160_Transform(j, B, C, D);
             rotation = ROTATE_L(A + transform + X(WL[j]) + KL[j >> 4], SL[j]);
@@ -219,7 +212,7 @@ void RIPEMD160_Process(RIPEMD160_CTX *ctx,
             b = temp;
         }
 
-        unsigned long temp = ctx->state[1] + C + d;
+        uint64_t temp = ctx->state[1] + C + d;
         ctx->state[1] = ctx->state[2] + D + e;
         ctx->state[2] = ctx->state[3] + E + a;
         ctx->state[3] = ctx->state[4] + A + b;
@@ -252,7 +245,7 @@ static void RIPEMD160_Update(RIPEMD160_CTX *ctx, const void *data, size_t len) {
 // - use RIPEMD160_CTX.
 // - use openSSL constants.
 // - extract state initialization.
-void RIPEMD160_Final(RIPEMD160_CTX *ctx, unsigned char *digest) {
+void RIPEMD160_Final(RIPEMD160_CTX *ctx, uint8_t *digest) {
     if (digest == NULL) {
         return;
     }
@@ -285,9 +278,9 @@ void RIPEMD160_Final(RIPEMD160_CTX *ctx, unsigned char *digest) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void ripemd160(const unsigned char *src, size_t len, unsigned char *digest) {
+void ripemd160(const uint8_t *src, size_t len, uint8_t *digest) {
     RIPEMD160_CTX ctx;
-    static unsigned char temp[RIPEMD160_DIGEST_LEN];
+    static uint8_t temp[RIPEMD160_DIGEST_LEN];
 
     if (digest == NULL) {
         digest = temp;

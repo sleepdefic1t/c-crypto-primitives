@@ -11,12 +11,12 @@
 
 ### Base58: Compile and Run Tests with GCC
 
-1) `gcc base58.c base58_test.c -o base58`
+1) `gcc -I../ base58.c base58_test.c -o base58`
 2) `./base58`
 
 Optionally print Base58 Encoding/Decoding results to the console:
 
-1) `gcc base58.c base58_test.c -o base58 -DPRINT_RESULTS`
+1) `gcc -I../ base58.c base58_test.c -o base58 -DPRINT_RESULTS`
 2) `./base58`
 
 ## Base58Check Encoding/Decoding

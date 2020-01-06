@@ -11,14 +11,17 @@
 #define ARK_CRYPTO_C_PRIMITIVES_RIPEMD160_H
 
 #include <stddef.h>
+#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif  // #ifdef __cplusplus
 
+////////////////////////////////////////////////////////////////////////////////
 #define RIPEMD160_DIGEST_LEN 20
 
-void ripemd160(const unsigned char *src, size_t len, unsigned char *digest);
+////////////////////////////////////////////////////////////////////////////////
+void ripemd160(const uint8_t *src, size_t len, uint8_t *digest);
 
 #ifdef __cplusplus
 }

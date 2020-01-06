@@ -10,12 +10,14 @@
 #ifndef ARK_CRYPTO_C_PRIMITIVES_RIPEMD160_FIXTURES_H
 #define ARK_CRYPTO_C_PRIMITIVES_RIPEMD160_FIXTURES_H
 
+#include <stddef.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 // Sha256 Fixture Context
 typedef struct ripemd160_fixture_t {
-    unsigned int    size;
-    char            *seed;
-    char            *digest;
+    size_t          size;
+    const char      *seed;
+    const char      *digest;
 } Ripemd160Fixture;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -28,19 +30,19 @@ typedef struct ripemd160_fixture_t {
 ////////////////////////////////////////////////////////////////////////////////
 // Test Vectors
 static const Ripemd160Fixture standard_vectors[] = {
-    #include "ripemd160_standard.fixtures"
+    #include "ripemd160/fixtures/ripemd160_standard.fixtures"
 };
 
 static const Ripemd160Fixture mismatch_vectors[] = {
-    #include "ripemd160_mismatch.fixtures"
+    #include "ripemd160/fixtures/ripemd160_mismatch.fixtures"
 };
 
 static const Ripemd160Fixture random_vectors[] = {
-    #include "ripemd160_random.fixtures"
+    #include "ripemd160/fixtures/ripemd160_random.fixtures"
 };
 
 static const Ripemd160Fixture binary_vectors[] = {
-    #include "ripemd160_binary.fixtures"
+    #include "ripemd160/fixtures/ripemd160_binary.fixtures"
 };
 
 #endif  // #define ARK_CRYPTO_C_PRIMITIVES_SHA256_FIXTURES_H
