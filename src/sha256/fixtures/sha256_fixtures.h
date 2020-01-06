@@ -10,12 +10,14 @@
 #ifndef ARK_CRYPTO_C_PRIMITIVES_SHA256_FIXTURES_H
 #define ARK_CRYPTO_C_PRIMITIVES_SHA256_FIXTURES_H
 
+#include <stdint.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 // Sha256 Fixture Context
 typedef struct sha256_fixture_t {
-    unsigned int    width;
-    char            *seed;
-    char            *digest;
+    uint32_t        width;
+    const char      *seed;
+    const char      *digest;
 } Sha256Fixture;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -26,11 +28,11 @@ typedef struct sha256_fixture_t {
 ////////////////////////////////////////////////////////////////////////////////
 // Test Vectors
 static const Sha256Fixture short_message[] = {
-    #include "sha256_short.fixtures"
+    #include "sha256/fixtures/sha256_short.fixtures"
 };
 
 static const Sha256Fixture long_message[] = {
-    #include "sha256_long.fixtures"
+    #include "sha256/fixtures/sha256_long.fixtures"
 };
 
 #endif  // #define ARK_CRYPTO_C_PRIMITIVES_SHA256_FIXTURES_H

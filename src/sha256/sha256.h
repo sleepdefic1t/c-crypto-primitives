@@ -11,14 +11,17 @@
 #define ARK_CRYPTO_C_PRIMITIVES_SHA256_H
 
 #include <stddef.h>
+#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif  // #ifdef __cplusplus
 
+////////////////////////////////////////////////////////////////////////////////
 #define SHA256_DIGEST_LEN 32
 
-void sha256(const unsigned char *src, size_t len, unsigned char *digest);
+////////////////////////////////////////////////////////////////////////////////
+void sha256(const uint8_t *src, size_t len, uint8_t *digest);
 
 #ifdef __cplusplus
 }
