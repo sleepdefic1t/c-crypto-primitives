@@ -27,7 +27,7 @@
  * https://github.com/nayuki/Bitcoin-Cryptography-Library
  **/
 
-#include "ripemd160.h"
+#include "ripemd160/ripemd160.h"
 
 #include <stddef.h>
 #include <stdint.h>
@@ -35,7 +35,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants
-#include "rmdconst.h"
+#include "ripemd160/rmdconst.h"
 
 #define RIPEMD160_BLOCK_LEN     64
 #define RIPEMD160_WORD_SIZE     (RIPEMD160_BLOCK_LEN / 4)

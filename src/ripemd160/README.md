@@ -15,13 +15,13 @@ This implementation is currently:
 
 ## Compile and Run Tests with GCC
 
-1) `gcc -I../ ripemd160.c ripemd160_test.c -o ripemd160`
-2) `./ripemd160`
+1) `gcc -I../../src -I../../test ../../src/ripemd160/ripemd160.c ../../test/ripemd160/ripemd160_test.c -o ripemd160_tests`
+2) `./ripemd160_tests`
 
 Optionally print Ripemd160 results to the console:
 
-1) `gcc -I../ ripemd160.c ripemd160_test.c -o ripemd160 -DPRINT_RESULTS`
-2) `./ripemd160`
+1) `gcc -I../../src -I../../test ../../src/ripemd160/ripemd160.c ../../test/ripemd160/ripemd160_test.c -o ripemd160_tests -DPRINT_RESULTS`
+2) `./ripemd160_tests`
 
 ## More Information
 

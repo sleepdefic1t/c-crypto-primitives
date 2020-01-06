@@ -16,7 +16,7 @@
  * https://www.openssl.org/source/license.html
  **/
 
-#include "sha256.h"
+#include "sha256/sha256.h"
 
 #include <stddef.h>
 #include <stdint.h>

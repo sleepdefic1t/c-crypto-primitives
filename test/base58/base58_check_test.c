@@ -7,71 +7,25 @@
  * file that was distributed with this source code.
  **/
 
+#include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-#include "base58_check.h"
+#include "base58/base58_check.h"
 
 #include "base58/fixtures/base58_check_fixtures.h"
 
+#include "test_helpers.h"
+
 ////////////////////////////////////////////////////////////////////////////////
 // build and run with gcc:
-// `gcc -I../ base58_check_test.c base58_check.c base58.c ../sha256/sha256.c -o base58_check`
-// `./base58_check`
+// `gcc -I../../src -I../ ../../src/base58/base58.c ../../src/sha256/sha256.c ../../src/base58/base58_check.c base58_check_test.c -o base58_check_tests`
+// `./base58_check_tests`
 
 // build and run with gcc, with result printing:
-// `gcc -I../ base58_check_test.c base58_check.c base58.c ../sha256/sha256.c -o base58_check -DPRINT_RESULTS`
-// `./base58_check`
-
-////////////////////////////////////////////////////////////////////////////////
-void BytesToHex(const uint8_t *buf, size_t len, char *out) {
-    const uint8_t *it = buf;
-    const char *hex = "0123456789abcdef";
-    char *ptr = out;
-    for(; it < buf + len; ptr += 2, ++it){
-        ptr[0] = hex[(*it >> 4) & 0xF];
-        ptr[1] = hex[ *it       & 0xF];
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// Adapted from:
-// - https://gist.github.com/xsleonard/7341172
-//
-// Caller must ensure resulting value is freed.
-uint8_t* HexToBytes(const char* hexstr) {
-    size_t len = strlen(hexstr);
-    if (len % 2 != 0) {
-        return NULL;
-    }
-
-    size_t final_len = len / 2;
-
-    uint8_t* c = (uint8_t*)malloc((final_len + 1) * sizeof(*c));
-
-    for (size_t i = 0, j = 0; j < final_len; i += 2, j++) {
-        c[j] = (hexstr[i] % 32 + 9) % 25 * 16 + (hexstr[i + 1] % 32 + 9) % 25;
-    }
-
-    c[final_len] = '\0';
-
-    return c;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-#if defined(PRINT_RESULTS)
-    void printBase58CheckResult(const char *result) {
-        printf("\nresult: %s", result);
-    }
-
-    void printBase58CheckDecodeResult(uint8_t *result, size_t len) {
-        char buffer[(len * 2) + 1];
-        memset(buffer, 0, sizeof(buffer));
-        BytesToHex(result, len, buffer);
-        printBase58CheckResult(buffer);
-    }
-#endif
+// `gcc -I../../src -I../ ../../src/base58/base58.c ../../src/sha256/sha256.c ../../src/base58/base58_check.c base58_check_test.c -o base58_check_tests -DPRINT_RESULTS`
+// `./base58_check_tests`
 
 //////////////////////////////////////////////////////////////////////////////
 static const char *check_encode_success_label =
@@ -102,7 +56,7 @@ int base58_check_encode_cases() {
         free(hexBytes);
 
 #if defined(PRINT_RESULTS)
-        printBase58CheckResult(result);
+        PrintResult(result);
 #endif
 
         if (strcmp(result, check_valid_vectors[i].base58Check) != 0) {
@@ -141,7 +95,7 @@ int base58_check_decode_cases() {
                           &resultLen);
 
 #if defined(PRINT_RESULTS)
-        printBase58CheckDecodeResult(result, resultLen - 4);
+        PrintBytesResult(result, resultLen - 4);
 #endif
 
         uint8_t *hexBytes = HexToBytes(check_valid_vectors[i].hex);

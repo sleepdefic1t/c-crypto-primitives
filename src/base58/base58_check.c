@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  **/
 
-#include "base58_check.h"
+#include "base58/base58_check.h"
 
 #include <stddef.h>
 #include <stdint.h>
