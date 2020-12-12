@@ -1,3 +1,5 @@
+> :warning: **DO NOT USE IN PRODUCTION**<br>This project is in development and has not been fully tested, proceed with caution!
+
 # ARK C - Crypto Primitives
 
 > A simple Cryptographic Primitives Implementation in C for the Ark Blockchain.
